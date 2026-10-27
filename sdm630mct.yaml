@@ -1,0 +1,149 @@
+# Eastron SDM630MCT (three phase, CT clamps) for Home Assistant
+# Paste into configuration.yaml. Change the port line to your adapter's path
+# (Settings > System > Hardware > All hardware, the /dev/serial/by-id/ entry).
+# Register addresses are from Eastron's SDM630MCT Modbus protocol document.
+# Set up for a three-phase four-wire supply. On three-wire, the per-phase
+# voltages and powers aren't available; keep the currents and totals.
+# The SDM630MCT takes 5A (or 1A) output clamps, not 333mV ones.
+# Which meter? https://omnikit.co.uk/blogs/news/which-eastron-meter-do-i-need
+
+modbus:
+  - name: sdm630mct
+    type: serial
+    port: /dev/serial/by-id/PASTE-YOUR-ADAPTER-PATH-HERE
+    baudrate: 9600 # Eastron doesn't print a factory default; check the meter's menu
+    bytesize: 8
+    method: rtu
+    parity: N
+    stopbits: 1 # 1 or 2; check the meter's menu
+    sensors:
+      - name: SDM630MCT L1 Voltage
+        device_address: 1
+        address: 0
+        input_type: input
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        precision: 1
+        scan_interval: 10
+      - name: SDM630MCT L2 Voltage
+        device_address: 1
+        address: 2
+        input_type: input
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        precision: 1
+        scan_interval: 10
+      - name: SDM630MCT L3 Voltage
+        device_address: 1
+        address: 4
+        input_type: input
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        precision: 1
+        scan_interval: 10
+      - name: SDM630MCT L1 Current
+        device_address: 1
+        address: 6
+        input_type: input
+        data_type: float32
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        precision: 2
+        scan_interval: 10
+      - name: SDM630MCT L2 Current
+        device_address: 1
+        address: 8
+        input_type: input
+        data_type: float32
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        precision: 2
+        scan_interval: 10
+      - name: SDM630MCT L3 Current
+        device_address: 1
+        address: 10
+        input_type: input
+        data_type: float32
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        precision: 2
+        scan_interval: 10
+      - name: SDM630MCT L1 Power
+        device_address: 1
+        address: 12
+        input_type: input
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        precision: 0
+        scan_interval: 10
+      - name: SDM630MCT L2 Power
+        device_address: 1
+        address: 14
+        input_type: input
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        precision: 0
+        scan_interval: 10
+      - name: SDM630MCT L3 Power
+        device_address: 1
+        address: 16
+        input_type: input
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        precision: 0
+        scan_interval: 10
+      - name: SDM630MCT Total Power
+        device_address: 1
+        address: 52
+        input_type: input
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        precision: 0
+        scan_interval: 10
+      - name: SDM630MCT Frequency
+        device_address: 1
+        address: 70
+        input_type: input
+        data_type: float32
+        unit_of_measurement: Hz
+        device_class: frequency
+        state_class: measurement
+        precision: 2
+        scan_interval: 30
+      - name: SDM630MCT Import Energy
+        device_address: 1
+        address: 72
+        input_type: input
+        data_type: float32
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        precision: 2
+        scan_interval: 30
+      - name: SDM630MCT Export Energy
+        device_address: 1
+        address: 74
+        input_type: input
+        data_type: float32
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        precision: 2
+        scan_interval: 30

@@ -1,0 +1,67 @@
+# Eastron SDM72D-M (three phase, direct connect up to 100A) for Home Assistant
+# Paste into configuration.yaml. Change the port line to your adapter's path
+# (Settings > System > Hardware > All hardware, the /dev/serial/by-id/ entry).
+# Register addresses are from Eastron's SDM72D-M Modbus protocol document,
+# which lists the totals below. It doesn't list per-phase readings.
+# Which meter? https://omnikit.co.uk/blogs/news/which-eastron-meter-do-i-need
+
+modbus:
+  - name: sdm72d
+    type: serial
+    port: /dev/serial/by-id/PASTE-YOUR-ADAPTER-PATH-HERE
+    baudrate: 9600
+    bytesize: 8
+    method: rtu
+    parity: N
+    stopbits: 1
+    sensors:
+      - name: SDM72D-M Total Power
+        device_address: 1
+        address: 52
+        input_type: input
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        precision: 0
+        scan_interval: 10
+      - name: SDM72D-M Import Energy
+        device_address: 1
+        address: 72
+        input_type: input
+        data_type: float32
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        precision: 2
+        scan_interval: 30
+      - name: SDM72D-M Export Energy
+        device_address: 1
+        address: 74
+        input_type: input
+        data_type: float32
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        precision: 2
+        scan_interval: 30
+      - name: SDM72D-M Import Power
+        device_address: 1
+        address: 1280
+        input_type: input
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        precision: 0
+        scan_interval: 10
+      - name: SDM72D-M Export Power
+        device_address: 1
+        address: 1282
+        input_type: input
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        precision: 0
+        scan_interval: 10

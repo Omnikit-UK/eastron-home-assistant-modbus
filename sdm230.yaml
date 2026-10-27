@@ -1,0 +1,85 @@
+# Eastron SDM230 Modbus (single phase, up to 100A) for Home Assistant
+# Paste into configuration.yaml. Change the port line to your adapter's path
+# (Settings > System > Hardware > All hardware, the /dev/serial/by-id/ entry).
+# Register addresses are from Eastron's SDM230 Modbus protocol document.
+# Full guide: https://omnikit.co.uk/blogs/news/connect-eastron-sdm230-to-home-assistant
+
+modbus:
+  - name: sdm230
+    type: serial
+    port: /dev/serial/by-id/PASTE-YOUR-ADAPTER-PATH-HERE
+    baudrate: 9600
+    bytesize: 8
+    method: rtu
+    parity: N
+    stopbits: 1 # factory value is 1 or 2; if there's no reply, try 2
+    sensors:
+      - name: SDM230 Voltage
+        device_address: 1
+        address: 0
+        input_type: input
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        precision: 1
+        scan_interval: 10
+      - name: SDM230 Current
+        device_address: 1
+        address: 6
+        input_type: input
+        data_type: float32
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        precision: 2
+        scan_interval: 10
+      - name: SDM230 Power
+        device_address: 1
+        address: 12
+        input_type: input
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        precision: 0
+        scan_interval: 10
+      - name: SDM230 Power Factor
+        device_address: 1
+        address: 30
+        input_type: input
+        data_type: float32
+        device_class: power_factor
+        state_class: measurement
+        precision: 2
+        scan_interval: 30
+      - name: SDM230 Frequency
+        device_address: 1
+        address: 70
+        input_type: input
+        data_type: float32
+        unit_of_measurement: Hz
+        device_class: frequency
+        state_class: measurement
+        precision: 2
+        scan_interval: 30
+      - name: SDM230 Import Energy
+        device_address: 1
+        address: 72
+        input_type: input
+        data_type: float32
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        precision: 2
+        scan_interval: 30
+      - name: SDM230 Export Energy
+        device_address: 1
+        address: 74
+        input_type: input
+        data_type: float32
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        precision: 2
+        scan_interval: 30
